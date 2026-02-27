@@ -1,0 +1,17 @@
+#!/usr/bin/with-contenv bashio
+# ==============================================================================
+# Start OPC UA PLC simulator service
+# ==============================================================================
+
+set -euo pipefail
+
+export OPCUA_SIM_CONFIG_FILE
+export OPCUA_SIM_AUTO_CREATE
+
+OPCUA_SIM_CONFIG_FILE="$(bashio::config 'config_file')"
+OPCUA_SIM_AUTO_CREATE="$(bashio::config 'auto_create_example')"
+
+bashio::log.info "Starting OPC UA PLC Simulator"
+bashio::log.info "Config: ${OPCUA_SIM_CONFIG_FILE}"
+
+exec python3 /usr/bin/opcua_plc_simulator.py

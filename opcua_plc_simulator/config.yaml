@@ -1,0 +1,27 @@
+name: OPC UA PLC Simulator
+version: "0.1.0"
+slug: opcua_plc_simulator
+description: Simuliert eine PLC mit OPC UA Endpoint, konfigurierbar über YAML.
+url: "https://github.com/your-org/ha-addon-opcua-plc-simulator/tree/main/opcua_plc_simulator"
+startup: services
+boot: auto
+init: false
+apparmor: false
+arch:
+  - aarch64
+  - amd64
+  - armv7
+  - armhf
+  - i386
+ports:
+  4840/tcp: 4840
+ports_description:
+  4840/tcp: OPC UA endpoint
+map:
+  - config:rw
+options:
+  config_file: /config/opcua_plc_simulator.yaml
+  auto_create_example: true
+schema:
+  config_file: str
+  auto_create_example: bool

@@ -1,0 +1,11 @@
+build_from:
+  aarch64: "ghcr.io/home-assistant/aarch64-base:3.20"
+  amd64: "ghcr.io/home-assistant/amd64-base:3.20"
+  armv7: "ghcr.io/home-assistant/armv7-base:3.20"
+  armhf: "ghcr.io/home-assistant/armhf-base:3.20"
+  i386: "ghcr.io/home-assistant/i386-base:3.20"
+labels:
+  org.opencontainers.image.title: "Home Assistant Add-on: OPC UA PLC Simulator"
+  org.opencontainers.image.description: "YAML-configurable OPC UA PLC simulator for Home Assistant labs."
+  org.opencontainers.image.source: "https://github.com/your-org/ha-addon-opcua-plc-simulator"
+  org.opencontainers.image.licenses: "MIT"

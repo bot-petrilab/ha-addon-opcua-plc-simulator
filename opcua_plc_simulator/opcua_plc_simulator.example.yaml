@@ -1,0 +1,50 @@
+server:
+  endpoint: opc.tcp://0.0.0.0:4840
+  namespace_uri: urn:homeassistant:opcua:plc-simulator
+  tick_ms: 500
+
+model:
+  root: Machine
+  variables:
+    - name: Running
+      path: Machine/Running
+      type: bool
+      initial: false
+      writable: true
+      simulation:
+        mode: toggle
+        interval_ms: 3000
+
+    - name: Temperature
+      path: Machine/Temperature
+      type: float
+      initial: 42.0
+      writable: true
+      simulation:
+        mode: random_walk
+        min: 20
+        max: 110
+        step: 1.5
+        interval_ms: 1000
+
+    - name: RPM
+      path: Machine/RPM
+      type: int
+      initial: 0
+      writable: true
+      simulation:
+        mode: ramp
+        min: 0
+        max: 3000
+        step: 150
+        interval_ms: 800
+
+    - name: Mode
+      path: Machine/Mode
+      type: string
+      initial: Idle
+      writable: true
+      simulation:
+        mode: cycle
+        values: [Idle, Setup, Auto, Alarm]
+        interval_ms: 6000

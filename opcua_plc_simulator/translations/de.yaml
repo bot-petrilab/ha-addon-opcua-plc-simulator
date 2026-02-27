@@ -1,0 +1,7 @@
+configuration:
+  config_file:
+    name: Pfad zur Konfigurationsdatei
+    description: Pfad zur YAML-Konfiguration für Server/Variablen im Add-on-Container.
+  auto_create_example:
+    name: Beispiel-Konfiguration automatisch erstellen
+    description: Erstellt eine Beispiel-Konfiguration, falls die Datei fehlt.

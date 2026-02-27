@@ -1,0 +1,135 @@
+server:
+  endpoint: opc.tcp://0.0.0.0:4840
+  namespace_uri: urn:homeassistant:opcua:plc-simulator:motor-axis
+  tick_ms: 300
+
+model:
+  root: Drive
+  variables:
+    # Enable & mode
+    - name: ServoOn
+      path: Drive/Axis1/ServoOn
+      type: bool
+      initial: true
+      writable: true
+
+    - name: Homed
+      path: Drive/Axis1/Homed
+      type: bool
+      initial: true
+      writable: true
+      simulation:
+        mode: random_choice
+        values: [true, true, true, false]
+        interval_ms: 12000
+
+    - name: OperationMode
+      path: Drive/Axis1/OperationMode
+      type: string
+      initial: Auto
+      writable: true
+      simulation:
+        mode: cycle
+        values: [Jog, Auto, Teach]
+        interval_ms: 14000
+
+    # Motion feedback
+    - name: PositionActual
+      path: Drive/Axis1/PositionActual
+      type: float
+      initial: 0
+      writable: true
+      simulation:
+        mode: sine
+        min: -250
+        max: 250
+        period_ms: 12000
+        interval_ms: 400
+
+    - name: VelocityActual
+      path: Drive/Axis1/VelocityActual
+      type: float
+      initial: 0
+      writable: true
+      simulation:
+        mode: sine
+        min: -120
+        max: 120
+        period_ms: 7000
+        interval_ms: 300
+
+    - name: TorqueActual
+      path: Drive/Axis1/TorqueActual
+      type: float
+      initial: 10
+      writable: true
+      simulation:
+        mode: random_walk
+        min: 0
+        max: 95
+        step: 4
+        interval_ms: 500
+
+    - name: TemperatureMotor
+      path: Drive/Axis1/TemperatureMotor
+      type: float
+      initial: 38
+      writable: true
+      simulation:
+        mode: random_walk
+        min: 25
+        max: 95
+        step: 1
+        interval_ms: 1200
+
+    # Setpoints & commands
+    - name: PositionSetpoint
+      path: Drive/Axis1/PositionSetpoint
+      type: float
+      initial: 0
+      writable: true
+
+    - name: VelocitySetpoint
+      path: Drive/Axis1/VelocitySetpoint
+      type: float
+      initial: 50
+      writable: true
+
+    - name: JogPositive
+      path: Drive/Axis1/Command/JogPositive
+      type: bool
+      initial: false
+      writable: true
+
+    - name: JogNegative
+      path: Drive/Axis1/Command/JogNegative
+      type: bool
+      initial: false
+      writable: true
+
+    - name: ResetFault
+      path: Drive/Axis1/Command/ResetFault
+      type: bool
+      initial: false
+      writable: true
+
+    # Fault handling
+    - name: FaultActive
+      path: Drive/Axis1/Fault/Active
+      type: bool
+      initial: false
+      writable: true
+      simulation:
+        mode: random_choice
+        values: [false, false, false, true]
+        interval_ms: 8000
+
+    - name: FaultCode
+      path: Drive/Axis1/Fault/Code
+      type: int
+      initial: 0
+      writable: true
+      simulation:
+        mode: random_choice
+        values: [0, 0, 0, 12, 27, 41]
+        interval_ms: 8000

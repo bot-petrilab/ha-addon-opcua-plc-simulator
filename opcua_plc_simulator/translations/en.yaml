@@ -1,0 +1,7 @@
+configuration:
+  config_file:
+    name: Config file path
+    description: Path to YAML model/server config inside the add-on container.
+  auto_create_example:
+    name: Auto create example config
+    description: Create an example config file if it does not exist.

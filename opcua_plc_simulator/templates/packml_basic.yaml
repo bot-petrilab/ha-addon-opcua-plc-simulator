@@ -1,0 +1,118 @@
+server:
+  endpoint: opc.tcp://0.0.0.0:4840
+  namespace_uri: urn:homeassistant:opcua:plc-simulator:packml
+  tick_ms: 500
+
+model:
+  root: PackML
+  variables:
+    # Core PackML-like state model
+    - name: StateCurrent
+      path: PackML/StateCurrent
+      type: string
+      initial: Idle
+      writable: true
+      simulation:
+        mode: cycle
+        values: [Idle, Starting, Execute, Completing, Complete, Resetting, Stopped]
+        interval_ms: 7000
+
+    - name: ModeCurrent
+      path: PackML/ModeCurrent
+      type: string
+      initial: Auto
+      writable: true
+      simulation:
+        mode: cycle
+        values: [Manual, Auto, Maintenance]
+        interval_ms: 15000
+
+    # Commands
+    - name: CommandStart
+      path: PackML/Command/Start
+      type: bool
+      initial: false
+      writable: true
+
+    - name: CommandStop
+      path: PackML/Command/Stop
+      type: bool
+      initial: false
+      writable: true
+
+    - name: CommandReset
+      path: PackML/Command/Reset
+      type: bool
+      initial: false
+      writable: true
+
+    # Production counters
+    - name: GoodCount
+      path: PackML/Production/GoodCount
+      type: int
+      initial: 0
+      writable: true
+      simulation:
+        mode: ramp
+        min: 0
+        max: 20000
+        step: 7
+        interval_ms: 1200
+
+    - name: RejectCount
+      path: PackML/Production/RejectCount
+      type: int
+      initial: 0
+      writable: true
+      simulation:
+        mode: random_walk
+        min: 0
+        max: 800
+        step: 2
+        interval_ms: 3000
+
+    # KPI / process values
+    - name: OEE
+      path: PackML/KPI/OEE
+      type: float
+      initial: 78.5
+      writable: true
+      simulation:
+        mode: random_walk
+        min: 45
+        max: 95
+        step: 1.5
+        interval_ms: 2500
+
+    - name: ThroughputUnitsPerMin
+      path: PackML/KPI/ThroughputUnitsPerMin
+      type: float
+      initial: 120
+      writable: true
+      simulation:
+        mode: random_walk
+        min: 80
+        max: 160
+        step: 3
+        interval_ms: 1200
+
+    # Alarm / status
+    - name: AlarmActive
+      path: PackML/Alarm/Active
+      type: bool
+      initial: false
+      writable: true
+      simulation:
+        mode: random_choice
+        values: [false, false, false, true]
+        interval_ms: 5000
+
+    - name: AlarmCode
+      path: PackML/Alarm/Code
+      type: int
+      initial: 0
+      writable: true
+      simulation:
+        mode: random_choice
+        values: [0, 0, 0, 101, 203, 405]
+        interval_ms: 5000

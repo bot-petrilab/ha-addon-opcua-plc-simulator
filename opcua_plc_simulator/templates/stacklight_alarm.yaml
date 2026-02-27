@@ -1,0 +1,105 @@
+server:
+  endpoint: opc.tcp://0.0.0.0:4840
+  namespace_uri: urn:homeassistant:opcua:plc-simulator:stacklight
+  tick_ms: 400
+
+model:
+  root: Machine
+  variables:
+    # Alarm channel
+    - name: AlarmActive
+      path: Machine/Alarm/Active
+      type: bool
+      initial: false
+      writable: true
+      simulation:
+        mode: random_choice
+        values: [false, false, false, true]
+        interval_ms: 4500
+
+    - name: AlarmSeverity
+      path: Machine/Alarm/Severity
+      type: int
+      initial: 0
+      writable: true
+      simulation:
+        mode: random_choice
+        values: [0, 0, 1, 2, 3]
+        interval_ms: 4500
+
+    - name: AlarmMessage
+      path: Machine/Alarm/Message
+      type: string
+      initial: No alarm
+      writable: true
+      simulation:
+        mode: cycle
+        values:
+          - No alarm
+          - Overtemperature warning
+          - Air pressure low
+          - Emergency stop active
+          - Drive overload
+        interval_ms: 9000
+
+    # Tower light channels (all writable for HMI tests)
+    - name: StackLightRed
+      path: Machine/StackLight/Red
+      type: bool
+      initial: false
+      writable: true
+      simulation:
+        mode: random_choice
+        values: [false, false, true]
+        interval_ms: 2200
+
+    - name: StackLightYellow
+      path: Machine/StackLight/Yellow
+      type: bool
+      initial: false
+      writable: true
+      simulation:
+        mode: random_choice
+        values: [false, true, false, false]
+        interval_ms: 2200
+
+    - name: StackLightGreen
+      path: Machine/StackLight/Green
+      type: bool
+      initial: true
+      writable: true
+      simulation:
+        mode: random_choice
+        values: [true, true, false, true]
+        interval_ms: 2200
+
+    - name: StackLightBlue
+      path: Machine/StackLight/Blue
+      type: bool
+      initial: false
+      writable: true
+      simulation:
+        mode: random_choice
+        values: [false, false, false, true]
+        interval_ms: 4000
+
+    - name: Buzzer
+      path: Machine/StackLight/Buzzer
+      type: bool
+      initial: false
+      writable: true
+      simulation:
+        mode: random_choice
+        values: [false, false, false, true]
+        interval_ms: 3000
+
+    # Optional effect channel for HA light effect mapping
+    - name: Effect
+      path: Machine/StackLight/Effect
+      type: string
+      initial: off
+      writable: true
+      simulation:
+        mode: cycle
+        values: [off, blink, flash, off]
+        interval_ms: 5000

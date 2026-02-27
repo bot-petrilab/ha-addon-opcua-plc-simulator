@@ -1,0 +1,77 @@
+server:
+  endpoint: opc.tcp://0.0.0.0:4840
+  namespace_uri: urn:homeassistant:opcua:plc-simulator:stacklight-only
+  tick_ms: 350
+
+model:
+  root: StackLight
+  variables:
+    - name: Red
+      path: StackLight/Red
+      type: bool
+      initial: false
+      writable: true
+      simulation:
+        mode: random_choice
+        values: [false, false, true]
+        interval_ms: 2000
+
+    - name: Yellow
+      path: StackLight/Yellow
+      type: bool
+      initial: false
+      writable: true
+      simulation:
+        mode: random_choice
+        values: [false, true, false, false]
+        interval_ms: 2000
+
+    - name: Green
+      path: StackLight/Green
+      type: bool
+      initial: true
+      writable: true
+      simulation:
+        mode: random_choice
+        values: [true, true, false, true]
+        interval_ms: 2000
+
+    - name: Blue
+      path: StackLight/Blue
+      type: bool
+      initial: false
+      writable: true
+      simulation:
+        mode: random_choice
+        values: [false, false, false, true]
+        interval_ms: 3500
+
+    - name: White
+      path: StackLight/White
+      type: bool
+      initial: false
+      writable: true
+      simulation:
+        mode: random_choice
+        values: [false, false, true, false]
+        interval_ms: 3500
+
+    - name: Buzzer
+      path: StackLight/Buzzer
+      type: bool
+      initial: false
+      writable: true
+      simulation:
+        mode: random_choice
+        values: [false, false, false, true]
+        interval_ms: 2500
+
+    - name: Effect
+      path: StackLight/Effect
+      type: string
+      initial: off
+      writable: true
+      simulation:
+        mode: cycle
+        values: [off, blink, flash, off]
+        interval_ms: 4500

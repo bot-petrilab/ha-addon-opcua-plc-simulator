@@ -1,0 +1,74 @@
+server:
+  endpoint: opc.tcp://0.0.0.0:4840
+  namespace_uri: urn:homeassistant:opcua:plc-simulator:alarms
+  tick_ms: 500
+
+model:
+  root: Plant
+  variables:
+    - name: AlarmActive
+      path: Plant/Alarm/Active
+      type: bool
+      initial: false
+      writable: true
+      simulation:
+        mode: random_choice
+        values: [false, false, false, true]
+        interval_ms: 4000
+
+    - name: WarningActive
+      path: Plant/Alarm/WarningActive
+      type: bool
+      initial: false
+      writable: true
+      simulation:
+        mode: random_choice
+        values: [false, false, true]
+        interval_ms: 3500
+
+    - name: AlarmCode
+      path: Plant/Alarm/Code
+      type: int
+      initial: 0
+      writable: true
+      simulation:
+        mode: random_choice
+        values: [0, 0, 0, 1001, 1002, 2001, 3005]
+        interval_ms: 4000
+
+    - name: AlarmSeverity
+      path: Plant/Alarm/Severity
+      type: int
+      initial: 0
+      writable: true
+      simulation:
+        mode: random_choice
+        values: [0, 0, 1, 2, 3]
+        interval_ms: 4000
+
+    - name: AlarmText
+      path: Plant/Alarm/Text
+      type: string
+      initial: No alarm
+      writable: true
+      simulation:
+        mode: cycle
+        values:
+          - No alarm
+          - Conveyor jam zone 2
+          - Safety gate open
+          - Pressure below limit
+          - Overcurrent detected
+        interval_ms: 7000
+
+    - name: Acknowledge
+      path: Plant/Alarm/Command/Acknowledge
+      type: bool
+      initial: false
+      writable: true
+
+    - name: Reset
+      path: Plant/Alarm/Command/Reset
+      type: bool
+      initial: false
+      writable: true
